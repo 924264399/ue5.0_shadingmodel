@@ -1,0 +1,303 @@
+// Copyright Epic Games, Inc. All Rights Reserved.
+
+/*=============================================================================
+	Definitions.usf: Defines undefined defines to 0 as Cg can't handle them.
+=============================================================================*/
+
+#pragma once
+
+#ifndef MATERIAL_TWOSIDED
+#define	MATERIAL_TWOSIDED								0
+#endif
+
+#ifndef MATERIAL_ISTHINSURFACE
+#define	MATERIAL_ISTHINSURFACE							0
+#endif
+
+#ifndef MATERIAL_TANGENTSPACENORMAL
+#define	MATERIAL_TANGENTSPACENORMAL						0
+#endif
+
+#ifndef MATERIAL_TWOSIDED_SEPARATE_PASS
+#define	MATERIAL_TWOSIDED_SEPARATE_PASS					0
+#endif
+
+#ifndef MATERIALBLENDING_SOLID
+#define MATERIALBLENDING_SOLID							0
+#endif
+
+#ifndef MATERIALBLENDING_MASKED
+#define MATERIALBLENDING_MASKED							0
+#endif
+
+#ifndef MATERIALBLENDING_TRANSLUCENT
+#define MATERIALBLENDING_TRANSLUCENT					0
+#endif
+
+#ifndef TRANSLUCENT_SHADOW_WITH_MASKED_OPACITY
+#define TRANSLUCENT_SHADOW_WITH_MASKED_OPACITY			0
+#endif
+
+#ifndef MATERIALBLENDING_ADDITIVE
+#define MATERIALBLENDING_ADDITIVE						0
+#endif
+
+#ifndef MATERIALBLENDING_MODULATE
+#define MATERIALBLENDING_MODULATE						0
+#endif
+
+#ifndef MATERIALBLENDING_ALPHACOMPOSITE
+#define MATERIALBLENDING_ALPHACOMPOSITE					0
+#endif
+
+#ifndef MATERIALBLENDING_ALPHAHOLDOUT
+#define MATERIALBLENDING_ALPHAHOLDOUT					0
+#endif
+
+#ifndef MATERIAL_IS_SUBSTRATE
+#define MATERIAL_IS_SUBSTRATE								0
+#endif
+
+#ifndef SUBSTRATE_BLENDING_OPAQUE
+#define SUBSTRATE_BLENDING_OPAQUE							0
+#endif
+
+#ifndef SUBSTRATE_BLENDING_MASKED
+#define SUBSTRATE_BLENDING_MASKED							0
+#endif
+
+#ifndef SUBSTRATE_BLENDING_TRANSLUCENT_GREYTRANSMITTANCE
+#define SUBSTRATE_BLENDING_TRANSLUCENT_GREYTRANSMITTANCE	0
+#endif
+
+#ifndef SUBSTRATE_BLENDING_TRANSLUCENT_COLOREDTRANSMITTANCE
+#define SUBSTRATE_BLENDING_TRANSLUCENT_COLOREDTRANSMITTANCE 0
+#endif
+
+#ifndef SUBSTRATE_BLENDING_COLOREDTRANSMITTANCEONLY
+#define SUBSTRATE_BLENDING_COLOREDTRANSMITTANCEONLY		0
+#endif
+
+#ifndef SUBSTRATE_BLENDING_ALPHAHOLDOUT
+#define SUBSTRATE_BLENDING_ALPHAHOLDOUT					0
+#endif
+
+// We detect the isolated unlit BSDF node case to make sure lots of code is optimised out.
+// When unlit is selected as part of the legacy dynamic shading model, the SLAB model is used instead.
+#ifndef SUBSTRATE_OPTIMIZED_UNLIT
+#define SUBSTRATE_OPTIMIZED_UNLIT							0
+#endif
+
+#ifndef SUBSTRATE_NORMAL_QUALITY
+#define SUBSTRATE_NORMAL_QUALITY							0
+#define SUBSTRATE_TOP_LAYER_TYPE                            uint
+#endif
+
+#ifndef MATERIAL_SHADINGMODEL_DEFAULT_LIT
+#define MATERIAL_SHADINGMODEL_DEFAULT_LIT				0
+#endif
+
+#ifndef MATERIAL_SHADINGMODEL_SUBSURFACE
+#define MATERIAL_SHADINGMODEL_SUBSURFACE				0
+#endif
+
+
+#ifndef MATERIAL_SHADINGMODEL_CELTOON//toon//2                       LYY   这个文件就是用来定义宏的  相当于全局宏定义了MATERIAL_SHADINGMODEL_CELTOON为0
+#define MATERIAL_SHADINGMODEL_CELTOON                   0
+#endif
+
+//相当于先首先全局配置每个宏都是0  然后再具体的材质设置宏为1（nx是人为设  但是ue是动态生成的）  然后再光照计算时  根据宏来选择不同的光照计算路径
+//什么时候宏会变成 1？
+//这个过程是动态生成的， 就在你点击材质编辑器"Apply"
+//的那一瞬间：
+
+//C++
+//端的翻译官（ HLSLMaterialTranslator）会检查你这个材质球。
+
+//它发现：“嘿！ 这个材质的Shading Model选的是 CelToon。”
+
+//于是， 它会在最终生成的着色器代码的最顶端（甚至在 Definitions.usf 被包含之前）硬塞进去一行： #define MATERIAL_SHADINGMODEL_CELTOON 1
+
+//宏的优先级：因为编译器已经先拿到了1 ，那么Definitions.usf 里的#ifndef（如果没有定义）就会失效，不会再把它设为 0。
+
+
+
+#ifndef MATERIAL_SHADINGMODEL_PREINTEGRATED_SKIN
+#define MATERIAL_SHADINGMODEL_PREINTEGRATED_SKIN		0
+#endif
+
+#ifndef MATERIAL_SHADINGMODEL_UNLIT
+#define	MATERIAL_SHADINGMODEL_UNLIT						0
+#endif
+
+#ifndef MATERIAL_SHADINGMODEL_SINGLELAYERWATER
+#define MATERIAL_SHADINGMODEL_SINGLELAYERWATER			0 
+#endif
+
+#ifndef SINGLE_LAYER_WATER_SEPARATED_MAIN_LIGHT
+#define SINGLE_LAYER_WATER_SEPARATED_MAIN_LIGHT			0 
+#endif
+
+#ifndef SINGLE_LAYER_WATER_NO_DISCARD
+#define SINGLE_LAYER_WATER_NO_DISCARD					0
+#endif
+
+#ifndef MATERIAL_SINGLE_SHADINGMODEL
+#define	MATERIAL_SINGLE_SHADINGMODEL					0
+#endif
+
+#ifndef HAS_PRIMITIVE_UNIFORM_BUFFER
+#define	HAS_PRIMITIVE_UNIFORM_BUFFER					0
+#endif
+
+#ifndef NEEDS_VERTEX_FACTORY_INTERPOLATION
+#define NEEDS_VERTEX_FACTORY_INTERPOLATION				0
+#endif
+
+// Nanite deferred material shading
+#ifndef IS_NANITE_SHADING_PASS
+#define IS_NANITE_SHADING_PASS 0
+#endif
+
+// Nanite programmable rasterizer
+#ifndef IS_NANITE_RASTER_PASS
+#define IS_NANITE_RASTER_PASS 0
+#endif
+
+#ifndef IS_NANITE_PASS
+#define IS_NANITE_PASS (IS_NANITE_SHADING_PASS || IS_NANITE_RASTER_PASS)
+#endif
+
+#ifndef USE_ANALYTIC_DERIVATIVES
+#define USE_ANALYTIC_DERIVATIVES 0
+#endif
+
+#ifndef GBUFFER_HAS_VELOCITY
+#define GBUFFER_HAS_VELOCITY							0
+#endif
+
+#define PC_D3D											(SM6_PROFILE || SM5_PROFILE)
+
+#ifndef NEEDS_LIGHTMAP_COORDINATE
+#define NEEDS_LIGHTMAP_COORDINATE						0
+#endif
+
+#ifndef LANDSCAPE_XYOFFSET
+#define LANDSCAPE_XYOFFSET								0
+#endif
+
+#ifndef MATERIAL_SKY_ATMOSPHERE
+#define	MATERIAL_SKY_ATMOSPHERE							0
+#endif
+
+#ifndef BASEPASS_SKYATMOSPHERE_AERIALPERSPECTIVE
+#define	BASEPASS_SKYATMOSPHERE_AERIALPERSPECTIVE		0
+#endif
+
+#ifndef NUM_VF_PACKED_INTERPOLANTS
+#define NUM_VF_PACKED_INTERPOLANTS						0
+#endif
+
+#ifndef REVERSEBITS
+#define REVERSEBITS										reversebits
+#endif
+
+#ifndef INSTANCED_STEREO
+#define INSTANCED_STEREO								0
+#endif	
+
+#ifndef MULTI_VIEW
+#define MULTI_VIEW										0
+#endif	
+
+#ifndef CLEAR_COAT_BOTTOM_NORMAL
+#define CLEAR_COAT_BOTTOM_NORMAL						0
+#endif
+
+#ifndef IRIS_NORMAL
+#define IRIS_NORMAL										0
+#endif
+
+#ifndef TEX_COORD_SCALE_ANALYSIS
+#define TEX_COORD_SCALE_ANALYSIS						0
+#endif
+
+#ifndef LIGHTMAP_VT_ENABLED
+#define LIGHTMAP_VT_ENABLED								0
+#endif
+
+#define NOEXPRESSIONOPTIMIZATIONS						
+
+#ifndef HAS_INVERTED_Z_BUFFER
+#define HAS_INVERTED_Z_BUFFER	1
+#endif
+
+/** When defined sets the layer index for volumetric rendering in the vertex shader, rather than using a geometry shader */
+#ifndef USING_VERTEX_SHADER_LAYER
+#define USING_VERTEX_SHADER_LAYER	0
+#endif
+
+#ifndef DISABLE_FORWARD_LOCAL_LIGHTS
+#define DISABLE_FORWARD_LOCAL_LIGHTS					0
+#endif
+
+// 0: Full quality, 1: mobile shading, sampling underwater depth from a texture 2: mobile shading, sampling underwater depth from the depth buffer
+#ifndef SINGLE_LAYER_WATER_SHADING_QUALITY
+#define SINGLE_LAYER_WATER_SHADING_QUALITY				0
+#endif
+
+#ifndef CLOUD_LAYER_PIXEL_SHADER
+#define CLOUD_LAYER_PIXEL_SHADER						0
+#endif
+
+
+#ifndef SUPPORTS_ANISOTROPIC_MATERIALS
+#define SUPPORTS_ANISOTROPIC_MATERIALS					0
+#endif
+
+#ifndef FORCE_MATERIAL_FLOAT_FULL_PRECISION
+#define FORCE_MATERIAL_FLOAT_FULL_PRECISION             0
+#endif
+
+///////////////////////////////////////////////////////////////////////////////
+// Global Substrate material export related defines
+
+#ifndef SUBSTRATE_MATERIAL_EXPORT_TYPE
+#define SUBSTRATE_MATERIAL_EXPORT_TYPE						0
+#endif
+
+#ifndef SUBSTRATE_MATERIAL_EXPORT_CONTEXT
+#define SUBSTRATE_MATERIAL_EXPORT_CONTEXT					0
+#endif
+
+#ifndef SUBSTRATE_MATERIAL_EXPORT_LEGACY_BLEND_MODE
+#define SUBSTRATE_MATERIAL_EXPORT_LEGACY_BLEND_MODE		0
+#endif
+
+#ifndef SUBSTRATE_USE_FULLYSIMPLIFIED_MATERIAL
+#define SUBSTRATE_USE_FULLYSIMPLIFIED_MATERIAL				0
+#endif
+
+// Those define usage should match the meaning of ESubstrateMaterialExport enum from MaterialCompiler.h
+#define SUBSTRATE_MATERIAL_EXPORT_DIFFUSE_COLOR				1
+#define SUBSTRATE_MATERIAL_EXPORT_NORMAL						2
+#define SUBSTRATE_MATERIAL_EXPORT_EMISSIVE						3
+#define SUBSTRATE_MATERIAL_EXPORT_TRANSMITTANCE				4
+#define SUBSTRATE_MATERIAL_EXPORT_MATERIAL_PREVIEW				5
+
+#define SUBSTRATE_MATERIAL_EXPORT_CONTEXT_OPAQUE				0
+#define SUBSTRATE_MATERIAL_EXPORT_CONTEXT_TRANSLUCENT			1
+
+#define SUBSTRATE_MATERIAL_EXPORT_LEGACY_BLEND_OPAQUE			0
+#define SUBSTRATE_MATERIAL_EXPORT_LEGACY_BLEND_MASKED			1
+#define SUBSTRATE_MATERIAL_EXPORT_LEGACY_BLEND_TRANSLUCENT		2
+#define SUBSTRATE_MATERIAL_EXPORT_LEGACY_BLEND_ADDITIVE		3
+#define SUBSTRATE_MATERIAL_EXPORT_LEGACY_BLEND_MODULATE		4
+#define SUBSTRATE_MATERIAL_EXPORT_LEGACY_BLEND_ALPHACOMPOSITE	5
+#define SUBSTRATE_MATERIAL_EXPORT_LEGACY_BLEND_ALPHAHOLDOUT	6
+
+#define SUBSTRATE_MATERIAL_EXPORT_EXECUTED						(SUBSTRATE_MATERIAL_EXPORT_TYPE > 0)
+#define SUBSTRATE_MATERIAL_EXPORT_FROM_OPAQUE					(SUBSTRATE_MATERIAL_EXPORT_EXECUTED && (SUBSTRATE_MATERIAL_EXPORT_CONTEXT == SUBSTRATE_MATERIAL_EXPORT_CONTEXT_OPAQUE))
+#define SUBSTRATE_MATERIAL_EXPORT_FROM_TRANSLUCENT				(SUBSTRATE_MATERIAL_EXPORT_EXECUTED && (SUBSTRATE_MATERIAL_EXPORT_CONTEXT == SUBSTRATE_MATERIAL_EXPORT_CONTEXT_TRANSLUCENT))
+
+
